@@ -64,6 +64,14 @@ const sketch = ({ context, width, height }) => {
     // POINTS
     // --------------------------
 
+    points.forEach((point) => {
+
+      noise = random.noise2D(point.ix + frame * 2, point.iy, frequency, amplitude);
+
+      point.x = point.ix + noise
+      point.y = point.iy + noise
+    })
+
     // --------------------------
     // GRID
     // --------------------------
@@ -121,20 +129,10 @@ class Point {
   constructor({ x, y, fillStyle = "white", lineWidth = 10 }) {
     this.x = x;
     this.y = y;
+    this.ix = x;
+    this.iy = y;
     this.radius = 15;
     this.fillStyle = fillStyle;
     this.lineWidth = lineWidth;
-  }
-
-  draw(context) {
-    context.save();
-    context.fillStyle = this.fillStyle;
-
-    context.moveTo(this.x, this.y);
-    context.beginPath();
-    context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    context.fill();
-
-    context.restore();
   }
 }
