@@ -11,8 +11,8 @@ const settings = {
 let points = [];
 
 const sketch = ({ context, width, height }) => {
-  const nCols = 20;
-  const nRows = 50;
+  const nCols = 72;
+  const nRows = 8;
   const nCells = nCols * nRows;
 
   // Dimensions
@@ -47,7 +47,7 @@ const sketch = ({ context, width, height }) => {
     x += noise;
     y += noise;
 
-    let lineWidth = math.mapRange(noise, -amplitude, amplitude, 2, 20);
+    let lineWidth = math.mapRange(noise, -amplitude, amplitude, 0, 10);
     let colorIndex = Math.floor(math.mapRange(noise, -amplitude, amplitude, 0 , amplitude))
     let color = colors[colorIndex] || "white";
     points.push(new Point({ x, y, lineWidth, fillStyle: color }));
@@ -95,14 +95,14 @@ const sketch = ({ context, width, height }) => {
         const isAtEndOfRow = i % nCols === nCols - 1;
 
         if (next) {
-          const mx = curr.x + (next.x - curr.x) / 2;
-          const my = curr.y + (next.y - curr.y) / 2;
+          const mx = curr.x + (next.x - curr.x) * 0.2;
+          const my = curr.y + (next.y - curr.y) * 7;
 
           context.moveTo(lastX, lastY);
           if (!isAtEndOfRow) context.quadraticCurveTo(curr.x, curr.y, mx, my);
 
-          lastX = mx;
-          lastY = my;
+          lastX = mx - i / points.length * 250;
+          lastY = my - i / points.length * 250;
         }
       }
 
